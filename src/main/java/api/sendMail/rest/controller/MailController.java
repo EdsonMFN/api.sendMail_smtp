@@ -18,7 +18,7 @@ public class MailController {
     @Autowired
     private MailService service;
 
-    @PostMapping( consumes = {"application/json"})
+    @PostMapping
     public ResponseEntity<MailResponse> sendEmail(@RequestBody MailRequest request){
         MailResponse response = service.sendEmail(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
