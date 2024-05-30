@@ -2,7 +2,6 @@ package api.sendMail.service;
 
 import api.sendMail.domains.entity.Mail;
 import api.sendMail.domains.repository.MailRepository;
-import api.sendMail.enums.StatusEmail;
 import api.sendMail.rest.request.MailRequest;
 import api.sendMail.rest.response.MailResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ public class MailService {
             mail.setText(request.getText());
             mail.setSubject(request.getSubject());
             mail.setOwnerRef(request.getOwnerRef());
-            mail=repository.save(mail);
+            repository.save(mail);
 
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(request.getEmailFrom());
@@ -39,13 +38,7 @@ public class MailService {
             message.setText(request.getText());
             sender.send(message);
 
-            if (message != null){
-                mail.setStatusEmail(StatusEmail.SENT);
-                repository.save(mail);
-            }else {
-                mail.setStatusEmail(StatusEmail.ERROR);
-                repository.save(mail);
-            }
+
             return new MailResponse("successs");
         }catch (Exception e){
             throw new RuntimeException();
